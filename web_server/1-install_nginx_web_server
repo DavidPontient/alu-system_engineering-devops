@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
-# This script installs Nginx, configures it to listen on port 80, and serves a page containing "Holberton School for the win!"
+# This script installs and configures Nginx web server
 
-# Update package list and install Nginx
-sudo apt-get update -y
-sudo apt-get install nginx -y
+# Update the package list
+apt-get update
 
-# Ensure Nginx is started
-sudo service nginx start
+# Install Nginx
+apt-get install -y nginx
 
-# Verify that Nginx is running and listening on port 80
-sudo netstat -tuln | grep ':80' || { echo "Nginx is not listening on port 80"; exit 1; }
+# Start Nginx
+service nginx start
 
-# Create the HTML file with the required content
-echo "Holberton School for the win!" | sudo tee /var/www/html/index.html > /dev/null
+# Create a custom HTML page
+echo "Holberton School for the win!" > /var/www/html/index.html
 
-# Verify if the index.html file is created and contains the correct content
-cat /var/www/html/index.html || { echo "Error: index.html is not created or empty."; exit 1; }
+# Ensure Nginx is listening on port 80
+ufw allow 'Nginx HTTP'
 
-# Reload Nginx to apply any changes (without using systemctl)
-sudo nginx -s reload
+# Check if Nginx is running
+service nginx status
 
-# Check if Nginx is serving the correct content on the root page
-curl -s http://localhost | grep "Holberton School for the win!" || { echo "Error: Nginx is not serving the correct page."; exit 1; }
+# Restart Nginx without using systemctl
+service nginx restart
 
-# Output success message
-echo "Nginx is successfully installed and serving the correct page on port 80."
