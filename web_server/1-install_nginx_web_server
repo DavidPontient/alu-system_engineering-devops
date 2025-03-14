@@ -1,24 +1,14 @@
 #!/usr/bin/env bash
-# This script installs and configures Nginx web server
+# This script installs and configures Nginx on an Ubuntu server.
 
 # Update the package list
-apt-get update
+apt-get update -y
 
 # Install Nginx
 apt-get install -y nginx
 
-# Start Nginx
-service nginx start
-
-# Create a custom HTML page
-echo "Holberton School for the win!" > /var/www/html/index.html
-
-# Ensure Nginx is listening on port 80
-ufw allow 'Nginx HTTP'
-
-# Check if Nginx is running
-service nginx status
+# Create a custom HTML file for the root page
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
 
 # Restart Nginx without using systemctl
 service nginx restart
-
